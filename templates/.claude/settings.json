@@ -1,0 +1,81 @@
+{
+  "model": "opus",
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "high"
+    },
+    "claude-sonnet-5-5": {
+      "effortLevel": "medium"
+    }
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/setup.py\"",
+            "timeout": 900
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/context-warn.py\""
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/session-start.py\"",
+            "timeout": 900
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git worktree list:*)",
+      "Bash(git worktree prune:*)",
+      "Bash(ls:*)",
+      "Bash(wc:*)",
+      "Bash(du -sh:*)",
+      "Bash(grep:*)"
+    ],
+    "deny": [
+      "Bash(git push:*)",
+      "Bash(git commit:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git clean:*)",
+      "Read(./secrets.md)",
+      "Read(./.env)",
+      "Read(./.env.*)"
+    ]
+  },
+  "extraKnownMarketplaces": {
+    "context-mode": {
+      "source": {
+        "source": "github",
+        "repo": "mksglu/context-mode"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "context7@claude-plugins-official": true,
+    "hookify@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true,
+    "context-mode@context-mode": true
+  }
+}
